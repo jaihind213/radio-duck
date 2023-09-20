@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "radio-duck"
+version = "0.1.0"
+description = "duckDb server"
+authors = ["vishnu rao"]
+license = "mit license"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+duckdb = "0.8.1"
+fastapi = "0.101.0"
+uvicorn = "0.23.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
