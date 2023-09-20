@@ -19,3 +19,9 @@ A duckDb server, you can talk to.
 - Run sql on Duckdb over http [wip]
 - Load data from cloud blob storage like s3/azure [todo]
 - Consume data from streams like kafka [todo]
+
+## Tests
+todo
+
+## Try me
+todo
