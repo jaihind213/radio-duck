@@ -34,12 +34,12 @@ def test_run_sql():
     assert response.status_code == 200
     assert response.headers['content-type'] == 'application/json'
     resp_dict = response.json()
-    assert len(resp_dict) == 3
-    assert len(resp_dict['columns']) == 1
-    assert resp_dict['columns'][0] == 'num_birds_in_pond'
-    assert resp_dict['schema'][0] == 'NUMBER'
-    assert len(resp_dict['rows']) == 1
-    assert resp_dict['rows'][0][0] > 1
+    assert len(resp_dict) == 3, "Number of keys in api response json should be 3"
+    assert len(resp_dict['columns']) == 1, "Number of columns in response json should be 1"
+    assert resp_dict['columns'][0] == 'num_birds_in_pond', "Column name expected in response json should be 'num_birds_in_pond'"
+    assert resp_dict['schema'][0] == 'NUMBER', "Column Type expected in response json should be Number"
+    assert len(resp_dict['rows']) == 1, "Number of rows expected should be 1"
+    assert resp_dict['rows'][0][0] > 1, "Number of birds we selected from pond should be > 1"
 
 def test_run_for_absent_table():
     response = client.post("/sql", json= {"sql": "select * from fubar","timeout": 0})
