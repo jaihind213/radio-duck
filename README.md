@@ -20,6 +20,19 @@ A duckDb server, you can talk to.
 - Load data from cloud blob storage like s3/azure [todo]
 - Consume data from streams like kafka [todo]
 
+## Requirements
+
+- install mamba https://mamba.readthedocs.io/en/latest/
+- install docker
+
+```
+cd PROJECT_DIR
+mamba create -n radio-duck python=3.10
+mamba activate radio-duck
+mamba install poetry
+poetry install
+```
+
 ## Run Tests
 ```
 pytest
