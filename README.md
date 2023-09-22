@@ -38,7 +38,7 @@ poetry install
 pytest
 ```
 
-## Try me
+## Try me with Docker
 ```
 sh buildDocker.sh
 docker run -p 8000:8000 -t jaihind213/radio-duck:latest
@@ -50,3 +50,10 @@ docker run -p 8000:8000 -v <path_to_data_dir>:/radio-duck/pond -v <path_to_my_co
 #are u on mac m1, change buildDocker.sh a bit. uncomment & comment a build-line in it.
 ```
 Then access http://localhost:8000/docs
+
+### Check for Docker image Vulnerabilities
+```
+sh buildDocker.sh
+sh docker_sec_check.sh
+#feel free to fail build if u find some vulnerabilities! 
+```
