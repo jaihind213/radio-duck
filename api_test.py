@@ -22,7 +22,6 @@ def setup_before_test():
 @pytest.fixture(scope="module", autouse=True)
 def cleanup_after_test():
     yield
-    print("xxxxx")
     duck.connection.close()
 
 def test_quack():
