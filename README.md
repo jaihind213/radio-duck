@@ -20,8 +20,10 @@ A duckDb server, you can talk to.
 - Load data from cloud blob storage like s3/azure [todo]
 - Consume data from streams like kafka [todo]
 
-## Tests
-todo
+## Run Tests
+```
+pytest
+```
 
 ## Try me
 todo
