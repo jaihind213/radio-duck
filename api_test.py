@@ -27,7 +27,7 @@ def cleanup_after_test():
 def test_quack():
     response = client.get("/quack")
     assert response.status_code == 200
-    assert 'quack quack. serving you on port' in response.json()
+    assert 'quack quack. serving you on port' in response.text
 
 def test_run_sql():
     response = client.post("/sql", json= {"sql": "select sum(total) as num_birds_in_pond from pond","timeout": 0})

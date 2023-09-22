@@ -21,13 +21,16 @@ app = FastAPI(lifespan=shutdown_hook)
 
 if __name__ == "__main__":
     arguments = sys.argv[0:]
-    config_file = "/fubar"
-    if len(arguments) > 0:
+    config_file = "/fubar.ini"
+    if len(arguments) > 1:
         config_file = arguments[1]
 
     #config load
-    config.setup_app_config(os.getcwd() + "/default.ini")
+    default_config = os.getcwd() + "/default.ini"
+    print("loading default config from", default_config)
+    config.setup_app_config(default_config)
     if os.path.exists(config_file):
+        print("loading user provided config from", config_file)
         config.setup_app_config(config_file)
 
     host = config.get_config()['serve']['host']

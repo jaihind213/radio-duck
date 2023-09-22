@@ -8,7 +8,6 @@ import config
 connection = None
 
 def setup_duck():
-    #todo set memory
     duckdb_file = config.get_config()['duck']['db_file']
     logging.warning(f"using duckdb data file: {duckdb_file}.")
     duckdb_mem_str = config.get_config()['duck']['memory']
