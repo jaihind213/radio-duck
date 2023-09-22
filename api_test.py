@@ -33,6 +33,7 @@ def test_quack():
 def test_run_sql():
     response = client.post("/sql", json= {"sql": "select sum(total) as num_birds_in_pond from pond","timeout": 0})
     assert response.status_code == 200
+    assert response.headers['content-type'] == 'application/json'
     resp_dict = response.json()
     assert len(resp_dict) == 3
     assert len(resp_dict['columns']) == 1
@@ -40,3 +41,17 @@ def test_run_sql():
     assert resp_dict['schema'][0] == 'NUMBER'
     assert len(resp_dict['rows']) == 1
     assert resp_dict['rows'][0][0] > 1
+
+def test_run_for_absent_table():
+    response = client.post("/sql", json= {"sql": "select * from fubar","timeout": 0})
+    assert response.status_code == 400
+    assert 'fubar does not exist' in response.json()['detail']
+
+def test_run_for_bad_column():
+    response = client.post("/sql", json= {"sql": "select fubar from pond","timeout": 0})
+    assert response.status_code == 400
+    assert '"fubar" not found' in response.json()['detail']
+
+def test_run_for_bad_query():
+    response = client.post("/sql", json= {"sql": "SELECTS * from pond","timeout": 0})
+    assert response.status_code == 400
