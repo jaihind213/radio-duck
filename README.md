@@ -57,3 +57,8 @@ sh buildDocker.sh
 sh docker_sec_check.sh
 #feel free to fail build if u find some vulnerabilities! 
 ```
+
+## Notes:
+
+- <todo> handle large datasets / compress results say json-smile?
+- <todo> limit number of conns to duckdb ?
