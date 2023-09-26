@@ -38,7 +38,7 @@ def run_sql(sql_req: SqlRequest, db_connection=Depends(get_db_connection)):
     - **timeout**: timeout in seconds
     - return json with 3 keys 'schema','columns','rows'. each is an []. schema/columns are [] of string. rows is an [] of row. row is an [] of column values
     """
-    # todo: make async
+    # todo: make async, todo: accept params with sql too
     try:
         rows = db_connection.execute(sql_req.sql).fetchall()
         result = {
