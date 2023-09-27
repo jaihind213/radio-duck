@@ -22,7 +22,11 @@ def setup_duck():
     import random
     n = random.randint(1, 213)
     logging.info("initializing duck db...")
-    connection.execute(f"CREATE OR REPLACE TABLE pond(duck_type text, total INTEGER); insert into pond values ('mallard', {n});insert into pond values ('wood_duck', {n+1});")
+    connection.execute("CREATE OR REPLACE TABLE pond(duck_type text, total INTEGER);")
+    ducks = ["mallard", "wood_duck", "west_indian_whistling_duck", "marbled_duck", "mighty_duck"]
+    for duck in ducks:
+        connection.execute("INSERT INTO pond VALUES (?, ?)", [duck, n])
+        n = n+1
     logging.info("inserted {} ducks into pond...".format(n+n+1))
 
 def get_db_connection() -> duckdb.DuckDBPyConnection:

@@ -1,4 +1,5 @@
 import logging
+from typing import Any, List
 
 import duckdb
 from fastapi.responses import JSONResponse
@@ -15,6 +16,7 @@ router = APIRouter()
 class SqlRequest(BaseModel):
     sql: str = Field(default="select duck_type,total, 'sample query for u to run directly' from pond")
     timeout: int = 0
+    parameters: List[Any] = []
 
 
 @router.get("/quack", tags=["health"], response_class=PlainTextResponse)
@@ -40,7 +42,7 @@ def run_sql(sql_req: SqlRequest, db_connection=Depends(get_db_connection)):
     """
     # todo: make async, todo: accept params with sql too
     try:
-        rows = db_connection.execute(sql_req.sql).fetchall()
+        rows = db_connection.execute(sql_req.sql, sql_req.parameters).fetchall()
         result = {
             "schema": [dtype[1] for dtype in db_connection.description],
             "columns": [name[0] for name in db_connection.description],

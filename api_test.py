@@ -54,3 +54,16 @@ def test_run_for_bad_column():
 def test_run_for_bad_query():
     response = client.post("/sql", json= {"sql": "SELECTS * from pond","timeout": 0})
     assert response.status_code == 400
+
+def test_run_with_named_params():
+    response = client.post("/sql", json= {"sql": "select count(*) as total from pond where duck_type = ?", "parameters": ['swan'] })
+    resp_dict = response.json()
+    assert resp_dict['rows'][0][0] == 0, "Number of swans we selected from pond should be 0"
+    response = client.post("/sql", json={"sql": "select count(*) as total from pond where duck_type = ?",
+                                         "parameters": ['mighty_duck']})
+    resp_dict = response.json()
+    assert resp_dict['rows'][0][0] > 0, "Number of mighty_ducks we selected from pond should be >0"
+
+    response = client.post("/sql", json={"sql": "select total from pond where duck_type = 'wood_duck'",
+                                         "parameters": ['no_qns_mark_in_query_but_sending_param']})
+    assert response.status_code == 400 # InvalidInputException('Invalid Input Error: Prepared statement needs 0 parameters, 1 given')
