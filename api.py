@@ -1,5 +1,5 @@
 import logging
-from typing import Any, List
+from typing import Any, List, Optional
 
 import duckdb
 from fastapi.responses import JSONResponse
@@ -14,9 +14,20 @@ router = APIRouter()
 
 
 class SqlRequest(BaseModel):
-    sql: str = Field(default="select duck_type,total, 'sample query for u to run directly' from pond")
+    sql: str
     timeout: int = 0
-    parameters: List[Any] = []
+    parameters: Optional[List[Any]] = []
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "sql": "select * from pond where total > ?",
+                    "parameters": [0],
+                },
+            ]
+        }
+    }
 
 
 @router.get("/quack", tags=["health"], response_class=PlainTextResponse)
@@ -38,10 +49,16 @@ def run_sql(sql_req: SqlRequest, db_connection=Depends(get_db_connection)):
 
     - **sql**: the sql string
     - **timeout**: timeout in seconds
+    - **parameters**: list of named parameters
     - return json with 3 keys 'schema','columns','rows'. each is an []. schema/columns are [] of string. rows is an [] of row. row is an [] of column values
     """
-    # todo: make async, todo: accept params with sql too
+    if sql_req is None:
+        raise HTTPException(status_code=400, detail="bad input: got NULL input request!")
+
+    if sql_req.sql is None or "" == sql_req.sql.strip():
+        raise HTTPException(status_code=400, detail="bad input: input request does not have any sql" )
     try:
+        # todo: make async
         rows = db_connection.execute(sql_req.sql, sql_req.parameters).fetchall()
         result = {
             "schema": [dtype[1] for dtype in db_connection.description],

@@ -63,3 +63,4 @@ sh docker_sec_check.sh
 - todo: handle large datasets / compress results say json-smile?
 - todo: limit number of conns to duckdb ?
 - todo: add python styling enforcer to project
+- todo: return query_id ,useful for debugging.
