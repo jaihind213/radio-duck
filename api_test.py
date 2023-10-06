@@ -83,3 +83,11 @@ def test_run_with_named_params():
     response = client.post("/sql", json={"sql": "select total from pond where duck_type = 'wood_duck'",
                                          "parameters": None})
     assert response.status_code == 200  # InvalidInputException('Invalid Input Error: Prepared statement needs 0 parameters, 1 given')
+
+def test_run_with_schema():
+    response = client.post("/sql", json= {"schema":"", "sql": "SELECT * from pond"})
+    assert response.status_code == 200
+    response = client.post("/sql", json={"schema": "main", "sql": "SELECT * from pond"})
+    assert response.status_code == 200
+    response = client.post("/sql", json={"schema":"foo", "sql": "SELECT * from pond"})
+    assert response.status_code == 400

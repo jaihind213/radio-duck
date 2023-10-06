@@ -8,15 +8,15 @@ from pydantic import BaseModel, Field
 from fastapi.responses import PlainTextResponse
 
 from config import get_config
-from duck import get_db_connection
+from duck import get_db_connection, default_schema
 
 router = APIRouter()
-
 
 class SqlRequest(BaseModel):
     sql: str
     timeout: int = 0
     parameters: Optional[List[Any]] = []
+    schema_to_use:str = Field(alias="schema", default= "")
 
     model_config = {
         "json_schema_extra": {
@@ -24,6 +24,7 @@ class SqlRequest(BaseModel):
                 {
                     "sql": "select * from pond where total > ?",
                     "parameters": [0],
+                    "schema" : "main"
                 },
             ]
         }
@@ -50,6 +51,7 @@ def run_sql(sql_req: SqlRequest, db_connection=Depends(get_db_connection)):
     - **sql**: the sql string
     - **timeout**: timeout in seconds
     - **parameters**: list of named parameters
+    - **schema**: the database schema, defaults to 'main'
     - return json with 3 keys 'schema','columns','rows'. each is an []. schema/columns are [] of string. rows is an [] of row. row is an [] of column values
     """
     if sql_req is None:
@@ -57,8 +59,17 @@ def run_sql(sql_req: SqlRequest, db_connection=Depends(get_db_connection)):
 
     if sql_req.sql is None or "" == sql_req.sql.strip():
         raise HTTPException(status_code=400, detail="bad input: input request does not have any sql" )
+
+    skema = default_schema
+    if sql_req.schema_to_use is not None:
+        schema_provided = sql_req.schema_to_use.strip()
+        if "" != schema_provided:
+            skema = schema_provided
+
     try:
         # todo: make async
+        from duck import database_name
+        db_connection.execute("use " + database_name + "." + skema)
         rows = db_connection.execute(sql_req.sql, sql_req.parameters).fetchall()
         result = {
             "schema": [dtype[1] for dtype in db_connection.description],
