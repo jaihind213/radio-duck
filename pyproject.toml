@@ -8,15 +8,14 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-# todo: update duckdb to stable version. this version has bug fix for https://github.com/duckdb/duckdb/pull/8738
-#duckdb = "0.8.2.dev4572"
-#duckdb = "0.8.2.dev5216"
 duckdb = "0.9.0"
 fastapi = "0.101.0"
 uvicorn = "0.23.2"
-pytest = "7.4.2"
 httpx = "^0.25.0"
 
+[tool.poetry.group.dev.dependencies]
+# poetry add pytest --group dev
+pytest = "7.4.2"
 
 [build-system]
 requires = ["poetry-core"]
