@@ -16,7 +16,33 @@ httpx = "^0.25.0"
 [tool.poetry.group.dev.dependencies]
 # poetry add pytest --group dev
 pytest = "7.4.2"
+#black = "^23.9.1"
+pre-commit = "^3.4.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+#
+#[tool.black]
+#line-length = 79
+#preview = true
+#target-version = ["py310"]
+
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
+preview = true
+target-version = ["py310"]
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
