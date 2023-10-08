@@ -77,7 +77,7 @@ def run_sql(sql_req: SqlRequest, db_connection=Depends(get_db_connection)):
             "rows": list(rows)
         }
         return JSONResponse(content=result)
-    except (duckdb.InvalidInputException,         duckdb.BinderException, duckdb.CatalogException, duckdb.ParserException) as e:
+    except (duckdb.InvalidInputException, duckdb.BinderException, duckdb.CatalogException, duckdb.ParserException) as e:
         logging.error(e)
         raise HTTPException(status_code=400, detail="bad input:" + str(e))
     except duckdb.OutOfMemoryException as oom:
