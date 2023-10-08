@@ -4,7 +4,8 @@ import pytest
 
 @pytest.mark.black
 def test_black_formatting():
-    # Run the black command as a subprocess #todo- add as pre-commit hook ? github action?
+    # Run the black command as a subprocess
+    # todo- add as pre-commit hook ? github action?
     result = subprocess.run(
         ["black", "--check", "."],
         stdout=subprocess.PIPE,
@@ -21,7 +22,8 @@ def test_black_formatting():
 
 @pytest.mark.flake8
 def test_flake8_linting():
-    # Run the flake8 command as a subprocess #todo- add as pre-commit hook ? github action?
+    # Run the flake8 command as a subprocess
+    # todo- add as pre-commit hook ? github action?
     result = subprocess.run(
         ["flake8", "--format=pylint"],
         stdout=subprocess.PIPE,
