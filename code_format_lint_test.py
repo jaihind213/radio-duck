@@ -1,4 +1,5 @@
 import subprocess
+
 import pytest
 
 
@@ -35,3 +36,20 @@ def test_flake8_linting():
     assert (
         result.returncode == 0
     ), "flake8 is complaining.':\n{result.stdout}\n{result.stderr}"
+
+
+@pytest.mark.isort
+def test_isort():
+    # Run the flake8 command as a subprocess
+    # todo- add as pre-commit hook ? github action?
+    result = subprocess.run(
+        ["isort", "--check", "."],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+
+    # Check if the black command succeeded (exit code 0)
+    assert (
+        result.returncode == 0
+    ), "isort is complaining.':\n{result.stdout}\n{result.stderr}"

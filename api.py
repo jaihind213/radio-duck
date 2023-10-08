@@ -2,14 +2,13 @@ import logging
 from typing import Any, List, Optional
 
 import duckdb
-from fastapi.responses import JSONResponse
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel, Field
-from fastapi.responses import PlainTextResponse
 import fastapi
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import JSONResponse, PlainTextResponse
+from pydantic import BaseModel, Field
 
 from config import get_config
-from duck import get_db_connection, default_schema
+from duck import default_schema, get_db_connection
 
 router = APIRouter()
 

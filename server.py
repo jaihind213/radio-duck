@@ -3,9 +3,9 @@ import os
 import sys
 from contextlib import asynccontextmanager
 
-import api
 from fastapi import Depends, FastAPI
 
+import api
 import config
 import duck
 

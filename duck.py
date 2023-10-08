@@ -4,7 +4,6 @@ import duckdb
 
 import config
 
-
 default_schema = "main"
 database_name = ""
 
