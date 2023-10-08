@@ -30,3 +30,6 @@ target-version = ['py310']
 
 [pytest]
 addopts = "-v"
+
+#[tool.flake8]
+#refer to .flake8 file for the config.
