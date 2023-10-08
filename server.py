@@ -10,12 +10,13 @@ import config
 import duck
 
 
-#todo
+# todo
 @asynccontextmanager
 async def shutdown_hook(app: FastAPI):
     yield
     duck.connection.close()
     print("shutdown hook called")
+
 
 app = FastAPI(lifespan=shutdown_hook)
 
@@ -25,7 +26,7 @@ if __name__ == "__main__":
     if len(arguments) > 1:
         config_file = arguments[1]
 
-    #config load
+    # config load
     default_config = os.getcwd() + "/default.ini"
     print("loading default config from", default_config)
     config.setup_app_config(default_config)
@@ -33,10 +34,10 @@ if __name__ == "__main__":
         print("loading user provided config from", config_file)
         config.setup_app_config(config_file)
 
-    host = config.get_config()['serve']['host']
-    port_str = config.get_config()['serve']['port']
-    log_level = config.get_config()['logging']['level']
-    #set default loglevel
+    host = config.get_config()["serve"]["host"]
+    port_str = config.get_config()["serve"]["port"]
+    log_level = config.get_config()["logging"]["level"]
+    # set default loglevel
     logging.basicConfig(level=logging._nameToLevel[log_level.upper()])
 
     # setup db
@@ -44,6 +45,13 @@ if __name__ == "__main__":
 
     # start server
     import uvicorn
-    app.include_router(api.router, prefix="/v1",
-                       dependencies=[Depends(config.get_config), Depends(duck.get_db_connection)])
+
+    app.include_router(
+        api.router,
+        prefix="/v1",
+        dependencies=[
+            Depends(config.get_config),
+            Depends(duck.get_db_connection),
+        ],
+    )
     uvicorn.run(app, host=host, port=int(port_str), log_level=log_level)

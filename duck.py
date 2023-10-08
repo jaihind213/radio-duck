@@ -8,13 +8,14 @@ import config
 default_schema = "main"
 database_name = ""
 
-#primary connection
+# primary connection
 connection = None
 
+
 def setup_duck():
-    duckdb_file = config.get_config()['duck']['db_file']
+    duckdb_file = config.get_config()["duck"]["db_file"]
     logging.warning(f"using duckdb data file: {duckdb_file}.")
-    duckdb_mem_str = config.get_config()['duck']['memory']
+    duckdb_mem_str = config.get_config()["duck"]["memory"]
     if duckdb_file is None or "" == duckdb_file:
         raise ValueError("duckdb file path not set!")
 
@@ -29,13 +30,16 @@ def setup_duck():
 
     _prepare_pond_table()
 
+
 def get_db_connection() -> duckdb.DuckDBPyConnection:
-    #If you want to create a second connection to an existing database, you can use the cursor() method.
-    #todo pool of cursors
+    # If you want to create a 2nd connection to an existing database,
+    # you can use the cursor() method.
+    # todo pool of cursors
     cursor = None
     try:
         cursor = connection.cursor()
-        #its used as a fastapi dependency, so fastapi will call second time to enter finally block
+        # its used as a fastapi dependency,
+        # so fastapi will call second time to enter finally block
         yield cursor
     finally:
         if not cursor:
@@ -44,11 +48,20 @@ def get_db_connection() -> duckdb.DuckDBPyConnection:
 
 def _prepare_pond_table():
     import random
+
     n = random.randint(1, 213)
     logging.info("initializing duck db...")
-    connection.execute("CREATE OR REPLACE TABLE pond(duck_type text, total INTEGER);")
-    ducks = ["mallard", "wood_duck", "west_indian_whistling_duck", "marbled_duck", "mighty_duck"]
+    connection.execute(
+        "CREATE OR REPLACE TABLE pond(duck_type text, total INTEGER);"
+    )
+    ducks = [
+        "mallard",
+        "wood_duck",
+        "west_indian_whistling_duck",
+        "marbled_duck",
+        "mighty_duck",
+    ]
     for duck in ducks:
         connection.execute("INSERT INTO pond VALUES (?, ?)", [duck, n])
-        n = n+1
-    logging.info("inserted {} ducks into pond...".format(n+n+1))
+        n = n + 1
+    logging.info("inserted {} ducks into pond...".format(n + n + 1))
