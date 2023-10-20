@@ -82,7 +82,7 @@ sh docker_sec_check.sh
 
 ## Notes:
 
-- todo: handle large datasets / compress results say json-smile?
+- todo: stream large datasets / compress results say json-smile?
 - todo: limit number of conns to duckdb ?
 - todo: return query_id ,useful for debugging.
 - todo: handle transactions over http ? i.e. multiple http requests.
