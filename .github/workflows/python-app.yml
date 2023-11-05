@@ -31,6 +31,8 @@ jobs:
         pwd
         ls -lah
         poetry install
+        poetry export --without-hashes --format=requirements.txt > requirements.txt
+        pip install -r requirements.txt
     - name: Lint code
       run: |
         echo "this is taken care as a pytest"
