@@ -63,7 +63,8 @@ jobs:
         to: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:edge
         ignore-unchanged: true
         only-severities: critical,high
-        token: ${{ secrets.DHUB }}
+        dockerhub-password: ${{ secrets.DHUB }}
+        dockerhub-user: ${{ secrets.DHUB_USER }}
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
