@@ -14,8 +14,8 @@ COPY default.ini /radio-duck/default.ini
 #RUN apk update && apk add --no-cache --virtual .compiler_dep g++ && apk add --no-cache musl-dev libpq-dev libffi-dev  && pip install --no-cache-dir -r requirements.txt && apk del .compiler_dep
 RUN apk update && apk add --no-cache --virtual .compiler_dep g++ && apk add --no-cache musl-dev libpq-dev libffi-dev  && pip install --no-cache-dir -r requirements.txt && apk del .compiler_dep
 
-RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
-RUN apk update && apk add --no-cache zlib-dev==1.3-r2  #->for docker CRITICAL CVE-2023-45853
+#RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
+#RUN apk update && apk add --no-cache zlib-dev==1.3-r2  #->for docker CRITICAL CVE-2023-45853
 # Make port 80 available to the world outside this container
 EXPOSE 8000
 
