@@ -27,12 +27,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install --upgrade poetry
-        poetry --version
-        pwd
-        ls -lah
         poetry install
         poetry export --without-hashes --format=requirements.txt > requirements.txt
         pip install -r requirements.txt
+        pwd
+        ls -lah
     - name: Lint code
       run: |
         echo "this is taken care as a pytest"
