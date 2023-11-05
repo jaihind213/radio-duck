@@ -33,9 +33,6 @@ jobs:
         poetry install
         poetry export --without-hashes --with dev --format=requirements.txt > requirements.txt 
         pip install -r requirements.txt
-        pwd
-        ls -lah
-        pip show pytest
     - name: Lint code
       run: |
         echo "this is taken care as a pytest"
@@ -55,9 +52,7 @@ jobs:
         # docker buildx build --platform=linux/amd64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         # docker buildx build --platform=linux/arm64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         echo "image name/version is $IMAGE_NAME/$DOCKER_VERSION"
-        docker buildx build --platform=linux/x86_64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
-        # bash docker_sec_check.sh
-        # docker images |grep radio
+        docker buildx build --platform=linux/x86_64,linux/amd64,linux/arm64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
     - name: Docker Scout
       id: docker-scout
       if: ${{ github.event_name == 'pull_request' }}
@@ -74,12 +69,6 @@ jobs:
         summary: true
       env:
         GITHUB_TOKEN: ${{ secrets.GTOKEN }}
-#    - name: Push Docker Image
-#      run: |
-#        docker push $IMAGE_NAME --all-tags
-#      env:
-#        DOCKER_USERNAME: ${{ secrets.DHUB_USER }}
-#        DOCKER_PASSWORD: ${{ secrets.DHUB }}
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
@@ -89,11 +78,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        #platforms: linux/amd64,linux/arm64,linux/x86_64
-        platforms: linux/x86_64
+        platforms: linux/x86_64,linux/amd64,linux/arm64
         push: true
         #tags: jaihind213/radio-duck:latest
         tags: ${{ env.IMAGE_NAME }}:latest,${{ env.IMAGE_VERSION }}
-#      env:
-#        DOCKER_USERNAME: ${{ secrets.DHUB_USER }}
-#        DOCKER_PASSWORD: ${{ secrets.DHUB }}
