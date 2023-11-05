@@ -48,8 +48,8 @@ jobs:
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`
         echo "Using Docker image version as $DOCKER_VERSION"
         docker buildx create --use
-        docker buildx build --platform=linux/amd64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
-        docker buildx build --platform=linux/arm64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
+        # docker buildx build --platform=linux/amd64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
+        # docker buildx build --platform=linux/arm64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         docker buildx build --platform=linux/x86_64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         bash docker_sec_check.sh
     - name: Build and push Docker image
