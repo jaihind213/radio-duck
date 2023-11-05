@@ -39,17 +39,24 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+    - name: Set up QEMU for cross-building
+      run: |
+        docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     - name: Docker build & Security check
       run: |
+        export IMAGE_NAME=jaihind213/radio-duck
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`
-        echo "Using DOCKER_IMAGE_VERSION as $DOCKER_VERSION"
-        bash buildDocker.sh $DOCKER_VERSION
+        echo "Using Docker image version as $DOCKER_VERSION"
+        docker buildx create --use
+        docker buildx build --platform=linux/amd64,linux/arm64,linux/x86_64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         bash docker_sec_check.sh
-    - name: Push Docker image to a container registry
-      run: |
-        echo ${{ secrets.DHUB_KEY }} | docker login -u ${{ secrets.DHUB_USER }} --password-stdin
-        docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
-        docker push $IMAGE_NAME:$VERSION
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64,linux/x86_64
+        push: true
+        tags: jaihind213/radio-duck:latest
       env:
-        DHUB_USER: ${{ secrets.DHUB_USER }}
-        DHUB_KEY: ${{ secrets.DHUB }}
+        DOCKER_USERNAME: ${{ secrets.DHUB_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DHUB }}
