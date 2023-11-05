@@ -63,7 +63,6 @@ jobs:
       with:
         command: cves
         #image: ${{  env.IMAGE_NAME }}:${{ DOCKER_VERSION }}
-        image: ""
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
