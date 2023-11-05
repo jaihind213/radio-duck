@@ -55,6 +55,7 @@ jobs:
         echo "image name/version is $IMAGE_NAME/$DOCKER_VERSION"
         docker buildx build --platform=linux/x86_64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         # bash docker_sec_check.sh
+        docker images |grep radio
     - name: Docker Scout
       id: docker-scout
       if: ${{ github.event_name == 'pull_request' }}
@@ -62,7 +63,7 @@ jobs:
       with:
         command: cves
         #image: ${{  env.IMAGE_NAME }}:${{ DOCKER_VERSION }}
-        image: jaihind213/radio-duck:0.0.1
+        image: local://jaihind213/radio-duck:0.0.1
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
