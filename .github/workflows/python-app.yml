@@ -68,6 +68,7 @@ jobs:
         dockerhub-password: ${{ secrets.DHUB }}
         dockerhub-user: ${{ secrets.DHUB_USER }}
         exit-code: true
+        only-fixed: true
         summary: true
       env:
         GITHUB_TOKEN: ${{ secrets.GTOKEN }}
