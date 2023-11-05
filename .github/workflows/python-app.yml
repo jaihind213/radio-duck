@@ -48,7 +48,7 @@ jobs:
     - name: Docker build image
       run: |
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`
-        IMAGE_VERSION=${IMAGE}:${DOCKER_VERSION}
+        IMAGE_VERSION=${IMAGE_NAME}:${DOCKER_VERSION}
         echo "DOCKER_VERSION=$DOCKER_VERSION" >> $GITHUB_ENV
         echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
         docker buildx create --use
@@ -88,7 +88,7 @@ jobs:
         platforms: linux/x86_64
         push: true
         #tags: jaihind213/radio-duck:latest
-        tags: jaihind213/radio-duck:latest,${{ env.IMAGE_VERSION }}
+        tags: ${{ env.IMAGE_NAME }}:latest,${{ env.IMAGE_VERSION }}
       env:
         DOCKER_USERNAME: ${{ secrets.DHUB_USER }}
         DOCKER_PASSWORD: ${{ secrets.DHUB }}
