@@ -63,7 +63,7 @@ jobs:
       with:
         command: cves
         #image: ${{  env.IMAGE_NAME }}:${{ DOCKER_VERSION }}
-        image: local://jaihind213/radio-duck:0.0.1
+        image: ""
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
