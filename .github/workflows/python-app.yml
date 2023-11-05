@@ -48,9 +48,9 @@ jobs:
         export DOCKER_VERSION=0.0.1
         echo "Using Docker image version as $DOCKER_VERSION"
         docker buildx create --use
-        # docker buildx build --platform=linux/amd64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
-        # docker buildx build --platform=linux/arm64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
-        docker buildx build --platform=linux/x86_64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
+        # docker buildx build --platform=linux/amd64 -t ${{ IMAGE_NAME }}:$DOCKER_VERSION -t $IMAGE_NAME:latest .
+        # docker buildx build --platform=linux/arm64 -t ${{ IMAGE_NAME }}:$DOCKER_VERSION -t $IMAGE_NAME:latest .
+        docker buildx build --platform=linux/x86_64 -t ${{ IMAGE_NAME }}:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         # bash docker_sec_check.sh
     - name: Docker Scout
       id: docker-scout
