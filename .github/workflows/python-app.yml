@@ -13,13 +13,12 @@ env:
   IMAGE_NAME: jaihind213/radio-duck
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
