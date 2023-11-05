@@ -69,8 +69,8 @@ jobs:
         dockerhub-user: ${{ secrets.DHUB_USER }}
         exit-code: true
         summary: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GTOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GTOKEN }}
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
