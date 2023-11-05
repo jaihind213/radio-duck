@@ -44,9 +44,8 @@ jobs:
         docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     - name: Docker build image
       run: |
-        export IMAGE_NAME=jaihind213/radio-duck
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`
-        DOCKER_VERSION=0.0.1
+        export DOCKER_VERSION=0.0.1
         echo "Using Docker image version as $DOCKER_VERSION"
         docker buildx create --use
         # docker buildx build --platform=linux/amd64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
@@ -59,7 +58,8 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: cves
-        image: $IMAGE_NAME:$DOCKER_VERSION
+        #image: ${{ IMAGE_NAME }}:${{ DOCKER_VERSION }}
+        image: jaihind213/radio-duck:0.0.1
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
