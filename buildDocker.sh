@@ -2,7 +2,7 @@
 
 VERSION=$1
 
-if [ "$VERSION" == "" ];
+if [ "$VERSION" == "" ];then
   echo "VERSION not set as 1st argument. bash buildDocker.sh <version>"
   exit 2
 fi
