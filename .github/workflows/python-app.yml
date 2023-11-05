@@ -48,7 +48,9 @@ jobs:
     - name: Docker build image
       run: |
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`
-        export DOCKER_VERSION=0.0.1
+        IMAGE_VERSION=${IMAGE}:${DOCKER_VERSION}
+        echo "DOCKER_VERSION=$DOCKER_VERSION" >> $GITHUB_ENV
+        echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
         docker buildx create --use
         # docker buildx build --platform=linux/amd64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         # docker buildx build --platform=linux/arm64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
@@ -72,13 +74,22 @@ jobs:
         summary: true
       env:
         GITHUB_TOKEN: ${{ secrets.GTOKEN }}
+#    - name: Push Docker Image
+#      run: |
+#        docker push $IMAGE_NAME --all-tags
+#      env:
+#        DOCKER_USERNAME: ${{ secrets.DHUB_USER }}
+#        DOCKER_PASSWORD: ${{ secrets.DHUB }}
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
+      run:
       with:
         context: .
-        platforms: linux/amd64,linux/arm64,linux/x86_64
+        #platforms: linux/amd64,linux/arm64,linux/x86_64
+        platforms: linux/x86_64
         push: true
-        tags: jaihind213/radio-duck:latest
+        #tags: jaihind213/radio-duck:latest
+        tags: jaihind213/radio-duck:latest,${{ env.IMAGE_VERSION }}
       env:
         DOCKER_USERNAME: ${{ secrets.DHUB_USER }}
         DOCKER_PASSWORD: ${{ secrets.DHUB }}
