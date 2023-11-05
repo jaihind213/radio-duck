@@ -46,6 +46,7 @@ jobs:
       run: |
         export IMAGE_NAME=jaihind213/radio-duck
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`
+        DOCKER_VERSION=0.0.1
         echo "Using Docker image version as $DOCKER_VERSION"
         docker buildx create --use
         # docker buildx build --platform=linux/amd64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
