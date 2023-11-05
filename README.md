@@ -75,7 +75,7 @@ Then access http://localhost:8000/docs
 
 ### Check for Docker image Vulnerabilities
 ```
-sh buildDocker.sh
+sh buildDocker.sh <version>
 sh docker_sec_check.sh
 #feel free to fail build if u find some vulnerabilities! 
 ```

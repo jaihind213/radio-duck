@@ -1,13 +1,14 @@
 #!/bin/bash
 
 VERSION=$1
+export IMAGE_NAME=jaihind213/radio-duck
 
 if [ "$VERSION" == "" ];then
   echo "VERSION not set as 1st argument. bash buildDocker.sh <version>"
   exit 2
 fi
+export VERSION
 
-IMAGE_NAME=jaihind213/radio-duck
 cd "$(dirname "$0")"
 echo "exporting poetry deps to requirements.txt..."
 #easy to build docker image with python and install with pip. hence converting to requirements.txt :)

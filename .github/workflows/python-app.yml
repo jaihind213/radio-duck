@@ -39,8 +39,17 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-    - name: Docker build
+    - name: Docker build & Security check
       run: |
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`
-        echo "DOCKER_VERSION as $DOCKER_VERSION"
+        echo "Using DOCKER_IMAGE_VERSION as $DOCKER_VERSION"
         bash buildDocker.sh $DOCKER_VERSION
+        bash docker_sec_check.sh
+    - name: Push Docker image to a container registry
+      run: |
+        echo ${{ secrets.DHUB_KEY }} | docker login -u ${{ secrets.DHUB_USER }} --password-stdin
+        docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
+        docker push $IMAGE_NAME:$VERSION
+      env:
+        DHUB_USER: ${{ secrets.DHUB_USER }}
+        DHUB_KEY: ${{ secrets.DHUB }}
