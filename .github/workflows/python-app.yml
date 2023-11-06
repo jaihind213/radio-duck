@@ -82,3 +82,11 @@ jobs:
         platforms: linux/x86_64,linux/amd64 # todo: linux/arm64 takes a long time
         push: true
         tags: ${{ env.IMAGE_NAME }}:latest,${{ env.IMAGE_VERSION }}
+    - name: Docker Hub Description
+      if: github.event.pull_request.merged == true
+      uses: peter-evans/dockerhub-description@v3
+      with:
+        username: ${{ secrets.DHUB_USER }}
+        password: ${{ secrets.DHUB }}
+        repository: jaihind213/radio-duck
+        short-description: Radio Duck server - talk to duckdb over http. https://github.com/jaihind213/radio-duck
