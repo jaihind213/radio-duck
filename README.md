@@ -62,6 +62,9 @@ pytest
 
 ## Try me with Docker
 ```
+#pull from docker hub
+docker pull jaihind213/radio-duck:latest
+# or build
 sh buildDocker.sh
 docker run -p 8000:8000 -t jaihind213/radio-duck:latest
 #or
@@ -77,7 +80,7 @@ Then access http://localhost:8000/docs
 ```
 sh buildDocker.sh <version>
 sh docker_sec_check.sh
-#feel free to fail build if u find some vulnerabilities! 
+# github actions is scanning for Vulnerabilities
 ```
 
 ## Notes:
