@@ -75,7 +75,7 @@ jobs:
         username: ${{ secrets.DHUB_USER }}
         password: ${{ secrets.DHUB }}
     - name: Build and push Docker image
-      if: github.event.pull_request.merged == true
+      if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
       uses: docker/build-push-action@v2
       with:
         context: .
@@ -83,7 +83,7 @@ jobs:
         push: true
         tags: ${{ env.IMAGE_NAME }}:latest,${{ env.IMAGE_VERSION }}
     - name: Docker Hub Description
-      if: github.event.pull_request.merged == true
+      if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
       uses: peter-evans/dockerhub-description@v3
       with:
         username: ${{ secrets.DHUB_USER }}
