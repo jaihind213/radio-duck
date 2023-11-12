@@ -32,5 +32,10 @@ target-version = ['py310']
 [pytest]
 addopts = "-v"
 
+[tool.isort]
+skip = [".gitignore", ".dockerignore"]
+extend_skip = [".md"]
+profile = "black"
+
 #[tool.flake8]
 #refer to .flake8 file for the config.
