@@ -33,9 +33,17 @@ jobs:
         poetry install
         poetry export --without-hashes --with dev --format=requirements.txt > requirements.txt 
         pip install -r requirements.txt
-    - name: Lint code
+    - name: Lint code check
       run: |
-        echo "this is taken care as a pytest"
+        if  isort . |grep Fixing;then 
+            echo "please run 'isort .' and commit"; 
+            unknown_command_to_fail_build;
+        fi
+        if  black . --preview |grep reformatted;then 
+            echo "please run 'black . --preview' and commit"; 
+            unknown_command_to_fail_build;
+        fi
+        echo "if flake8 detects something, please run 'flake8 --format=pylint .' and commit"
     - name: Test with pytest
       run: |
         pytest
