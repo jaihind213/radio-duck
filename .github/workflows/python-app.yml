@@ -61,8 +61,9 @@ jobs:
         echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
         echo "image name/version is $IMAGE_VERSION"
         #docker buildx build --platform=linux/x86_64,linux/amd64,linux/arm64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
-        docker buildx build --platform=linux/x86_64,linux/amd64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
+        docker buildx build --output type=docker  --platform=linux/x86_64,linux/amd64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         # todo: linux/arm64 takes a long time
+        docker image ls |grep -i radio
     - name: Docker build image for Apache Superset with district5 lib to connect to radio-duck
       run: |
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`
@@ -76,12 +77,12 @@ jobs:
         unzip -qq superset-${SUPERSET_VER}.zip
         mv superset-${SUPERSET_VER} superset_dir
         #
-        docker buildx build -f Dockerfile_superset_integration --platform=linux/x86_64,linux/amd64 -t $SUPERSET_IMAGE_TAG -t $SUPERSET_IMAGE_NAME:latest .
+        docker buildx build -f Dockerfile_superset_integration --output type=docker  --platform=linux/x86_64,linux/amd64 -t $SUPERSET_IMAGE_TAG -t $SUPERSET_IMAGE_NAME:latest .
         # todo: linux/arm64 docker build takes a long time
-        docker image ls |grep radio
+        docker image ls |grep -i radio
     - name: list images
       run: |
-        docker image ls |grep radio
+        docker image ls |grep -i radio
     - name: Docker Scout
       id: docker-scout
       if: ${{ github.event_name == 'pull_request' }}
