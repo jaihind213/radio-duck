@@ -6,10 +6,10 @@ FROM $BASE_IMAGE
 USER root
 COPY superset/db_engine_specs/radio-duckdb.py /app/superset/db_engine_specs/radio-duckdb.py
 
-#fix CVE-2023-39417
+#fix CVE-2023-39417, see debian section - version12 for fix. https://scout.docker.com/vulnerabilities/id/CVE-2023-39417
 RUN apt update
-RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" &gt; /etc/apt/sources.list.d/pgdg.list'
-RUN apt install -y wget; apt install -y gnupg; wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - ; apt remove wget; apt remove gnupg;
+#RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" &gt; /etc/apt/sources.list.d/pgdg.list'
+#RUN apt install -y wget; apt install -y gnupg; wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - ; apt remove wget; apt remove gnupg;
 RUN apt install -y postgresql-15=15.5-0+deb12u1
 
 # installing the python db api driver to connect to radio-duck
