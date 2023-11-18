@@ -84,7 +84,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: quickview,cves,recommendations
-        image: jaihind213/radio-duck:latest
+        image: local://jaihind213/radio-duck:latest
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
@@ -100,7 +100,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: quickview,cves,recommendations
-        image: jaihind213/superset-radioduck:latest
+        image: local://jaihind213/superset-radioduck:latest
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
