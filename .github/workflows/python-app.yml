@@ -53,11 +53,9 @@ jobs:
       uses: docker/setup-buildx-action@v3
     - name: Docker build image
       run: |
-        DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`
-        echo "DOCKER_VERSION=$DOCKER_VERSION" >> $GITHUB_ENV
-        
+        DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`        
         IMAGE_TAG=${IMAGE_NAME}:${DOCKER_VERSION}
-        echo "IMAGE_TAG=IMAGE_TAG" >> $GITHUB_ENV
+        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
         echo "IMAGE_TAG is $IMAGE_TAG"
         
         docker buildx build --platform=linux/x86_64,linux/amd64 -t $IMAGE_TAG -t $IMAGE_NAME:latest .
@@ -70,7 +68,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: cves
-        #image: ${{  env.IMAGE_NAME }}:${{ DOCKER_VERSION }}
+        image: local://jaihind213/radio-duck
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
