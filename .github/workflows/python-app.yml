@@ -80,7 +80,7 @@ jobs:
         # todo: linux/arm64 docker build takes a long time
     - name: list images
       run: |
-        docker image ls
+        docker image ls |grep radio
     - name: Docker Scout
       id: docker-scout
       if: ${{ github.event_name == 'pull_request' }}
