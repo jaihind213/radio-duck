@@ -83,7 +83,7 @@ jobs:
       if: ${{ github.event_name == 'pull_request' }}
       uses: docker/scout-action@v1
       with:
-        command: cves
+        command: quickview,cves,recommendations
         #image: ${{  env.IMAGE_NAME }}:${{ DOCKER_VERSION }}
         ignore-unchanged: true
         only-severities: critical,high
