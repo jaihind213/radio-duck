@@ -78,6 +78,7 @@ jobs:
         #
         docker buildx build -f Dockerfile_superset_integration --platform=linux/x86_64,linux/amd64 -t $SUPERSET_IMAGE_TAG -t $SUPERSET_IMAGE_NAME:latest .
         # todo: linux/arm64 docker build takes a long time
+        docker image ls |grep radio
     - name: list images
       run: |
         docker image ls |grep radio
