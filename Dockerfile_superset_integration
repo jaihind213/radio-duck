@@ -1,0 +1,31 @@
+#this dockerfile template comes from https://hub.docker.com/r/apache/superset
+#https://malihasameen.medium.com/quick-setup-configure-superset-with-docker-a5cca3992b28
+ARG BASE_IMAGE=apache/superset:3.0.1-py310
+FROM $BASE_IMAGE
+# Switching to root to install the required packages
+USER root
+COPY superset/db_engine_specs/radio-duckdb.py /app/superset/db_engine_specs/radio-duckdb.py
+
+# installing the python db api driver to connect to radio-duck
+RUN pip install district5
+
+ENV ADMIN_USERNAME $ADMIN_USERNAME
+ENV ADMIN_EMAIL $ADMIN_EMAIL
+ENV ADMIN_PASSWORD $ADMIN_PASSWORD
+ENV HEALTH_CHECK_INTERVAL $HEALTH_CHECK_INTERVAL
+
+COPY --chown=superset superset_config.py /app/
+ENV SUPERSET_CONFIG_PATH /app/superset_config.py
+
+RUN mkdir /app/docker
+RUN chown -R superset:superset /app/docker
+COPY  ./superset_dir/docker/ /app/docker/
+RUN chmod a+x /app/docker/*.sh
+
+EXPOSE 8088
+
+HEALTHCHECK CMD curl --fail http://localhost:8088 || exit 1
+
+# Switching back to using the `superset` user
+CMD [ "/app/docker/docker-ci.sh" ]
+USER superset
