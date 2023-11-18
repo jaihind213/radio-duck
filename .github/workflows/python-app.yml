@@ -95,7 +95,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GTOKEN }}
     - name: Docker Scout superset
-      id: docker-scout
+      id: docker-scout2
       if: ${{ github.event_name == 'pull_request' }}
       uses: docker/scout-action@v1
       with:
