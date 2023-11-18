@@ -73,7 +73,7 @@ jobs:
         echo "SUPERSET_IMAGE_TAG=$SUPERSET_IMAGE_TAG" >> $GITHUB_ENV
         #
         curl -LJO https://github.com/apache/superset/archive/${SUPERSET_VER}.zip
-        unzip superset-${SUPERSET_VER}.zip
+        unzip -qq superset-${SUPERSET_VER}.zip
         mv superset-${SUPERSET_VER} superset_dir
         #
         docker buildx build -f Dockerfile_superset_integration --platform=linux/x86_64,linux/amd64 -t $SUPERSET_IMAGE_TAG -t $SUPERSET_IMAGE_NAME:latest .
