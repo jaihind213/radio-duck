@@ -63,7 +63,7 @@ jobs:
         #docker buildx build --platform=linux/x86_64,linux/amd64,linux/arm64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         docker buildx build --platform=linux/x86_64,linux/amd64 -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
         docker buildx build --output type=docker -t $IMAGE_NAME:$DOCKER_VERSION -t $IMAGE_NAME:latest .
-        #why we issue build twice ?-> https://github.com/docker/buildx/issues/59
+        #why we issue build twice ?-> bug-> https://github.com/docker/buildx/issues/59, one is build and one is to load to local registry
         # todo: linux/arm64 takes a long time
     - name: Docker build image for Apache Superset with district5 lib to connect to radio-duck
       run: |
@@ -80,6 +80,7 @@ jobs:
         #
         docker buildx build -f Dockerfile_superset_integration --platform=linux/x86_64,linux/amd64 -t $SUPERSET_IMAGE_TAG -t $SUPERSET_IMAGE_NAME:latest .
         docker buildx build -f Dockerfile_superset_integration --output type=docker -t $SUPERSET_IMAGE_TAG -t $SUPERSET_IMAGE_NAME:latest .
+        #why we issue build twice ?-> bug-> https://github.com/docker/buildx/issues/59, one is build and one is to load to local registry
         # todo: linux/arm64 docker build takes a long time
     - name: list images
       run: |
@@ -90,7 +91,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: quickview,cves,recommendations
-        image: local://
+        image: local://jaihind213/radio-duck
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
@@ -101,12 +102,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GTOKEN }}
     - name: Docker Scout superset
-      id: docker-scout2
+      id: docker-scout-superset
       if: ${{ github.event_name == 'pull_request' }}
       uses: docker/scout-action@v1
       with:
         command: quickview,cves,recommendations
-        image: local://
+        image: local://jaihind213/superset-radioduck
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
@@ -121,14 +122,14 @@ jobs:
       with:
         username: ${{ secrets.DHUB_USER }}
         password: ${{ secrets.DHUB }}
-    - name: Build and push Docker image
-      if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        platforms: linux/x86_64,linux/amd64 # todo: linux/arm64 takes a long time
-        push: true
-        tags: ${{ env.IMAGE_NAME }}:latest,${{ env.SUPERSET_IMAGE_TAG }}
+#    - name: Build and push Docker image
+#      if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
+#      uses: docker/build-push-action@v2
+#      with:
+#        context: .
+#        platforms: linux/x86_64,linux/amd64 # todo: linux/arm64 takes a long time
+#        push: true
+#        tags: ${{ env.IMAGE_NAME }}:latest,${{ env.SUPERSET_IMAGE_TAG }}
 #    - name: Build and push Docker image of Apache Superset
 #      if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
 #      uses: docker/build-push-action@v2
