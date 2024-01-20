@@ -64,6 +64,7 @@ pytest
 ```
 #pull from docker hub
 docker pull jaihind213/radio-duck:latest
+# for macM1 -> 'docker run --platform linux/amd64 -p 8000:8000 -t jaihind213/radio-duck:latest'
 # or build
 sh buildDocker.sh
 docker run -p 8000:8000 -t jaihind213/radio-duck:latest
@@ -163,3 +164,4 @@ sh docker_sec_check.sh
 - todo: return query_id ,useful for debugging.
 - todo: handle transactions over http ? i.e. multiple http requests.
 - todo: build and load s3/azure blob storage extensions
+- todo: build arm64
