@@ -162,4 +162,4 @@ sh docker_sec_check.sh
 - todo: limit number of conns to duckdb ?
 - todo: return query_id ,useful for debugging.
 - todo: handle transactions over http ? i.e. multiple http requests.
-- todo: load data api from s3/azure blob storage
+- todo: build and load s3/azure blob storage extensions
