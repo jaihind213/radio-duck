@@ -7,6 +7,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 
+import deser
 from config import get_config
 from duck import default_schema, get_db_connection
 
@@ -90,10 +91,11 @@ def run_sql(
         rows = db_connection.execute(
             sql_req.sql, sql_req.parameters
         ).fetchall()
+        schema = [dtype[1] for dtype in db_connection.description]
         result = {
-            "schema": [dtype[1] for dtype in db_connection.description],
+            "schema": schema,
             "columns": [name[0] for name in db_connection.description],
-            "rows": list(rows),
+            "rows": list(_deserialize(schema, list(rows))),
         }
         return JSONResponse(content=result)
     except (
@@ -111,3 +113,7 @@ def run_sql(
         raise HTTPException(
             status_code=500, detail="out of memory for query:" + str(oom)
         ) from oom
+
+
+def _deserialize(schema, rows):
+    return deser.jsonify_rows(tuple(schema), rows)

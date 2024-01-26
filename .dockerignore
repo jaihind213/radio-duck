@@ -1,1 +1,6 @@
 pond/*.db
+*.png
+*.zip
+dockers
+radioduck.db
+scrap

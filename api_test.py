@@ -110,7 +110,7 @@ def test_run_with_named_params():
         "/sql",
         json={
             "sql": "select count(*) as total from pond where duck_type = ?",
-            "parameters": ["mighty_duck"],
+            "parameters": ["Mallard"],
         },
     )
     resp_dict = response.json()

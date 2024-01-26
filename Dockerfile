@@ -1,5 +1,6 @@
 # Use an official Python runtime as a parent image
-FROM python:3.10.13-alpine
+ARG DOCKER_DUCKX_IMAGE_VERSION
+FROM jaihind213/duckdbx:${DOCKER_DUCKX_IMAGE_VERSION}
 
 USER 0
 RUN mkdir -p /radio-duck
@@ -9,10 +10,11 @@ WORKDIR /radio-duck
 COPY . /radio-duck/
 COPY default.ini /radio-duck/default.ini
 # Install any needed packages specified in requirements.txt
-#RUN apk add --no-cache --virtual .make-deps musl-dev g++ libpq-dev libffi-dev && pip install --no-cache-dir -r requirements.txt
-#reduce size by removing g++ after u are done.
-#RUN apk update && apk add --no-cache --virtual .compiler_dep g++ && apk add --no-cache musl-dev libpq-dev libffi-dev  && pip install --no-cache-dir -r requirements.txt && apk del .compiler_dep
-RUN apk update && apk add --no-cache --virtual .compiler_dep g++ && apk add --no-cache musl-dev libpq-dev libffi-dev  && pip install --no-cache-dir -r requirements.txt && apk del .compiler_dep
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+RUN --mount=type=secret,id=duck_sekrets
+#RUN rm -f /etc/ssl/certs/ca-bundle.crt && apt update && apt install --reinstall ca-certificates && update-ca-certificates
+RUN echo "base docker image version: $DOCKER_DUCKX_IMAGE_VERSION" >> base_docker_image_version
 
 #RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
 #RUN apk update && apk add --no-cache zlib-dev==1.3-r2  #->for docker CRITICAL CVE-2023-45853
@@ -20,6 +22,6 @@ RUN apk update && apk add --no-cache --virtual .compiler_dep g++ && apk add --no
 EXPOSE 8000
 
 # Run server.py when the container launches
-CMD ["python", "/radio-duck/server.py"]
+CMD ["python3", "/radio-duck/server.py"]
 
 VOLUME /radio-duck/pond
