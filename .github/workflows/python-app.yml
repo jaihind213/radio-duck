@@ -70,7 +70,7 @@ jobs:
         echo "IMAGE_VERSION is $IMAGE_VERSION"
         echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
         echo "-------------------------------"
-        docker pull ${{IMAGE_NAME}}:${{IMAGE_VERSION}}
+        docker pull $IMAGE_NAME:${{ env.IMAGE_VERSION }}
         
         #IMAGE_TAG=${IMAGE_NAME}:${DOCKER_VERSION}
         #echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
