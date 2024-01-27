@@ -6,6 +6,7 @@ ARG DUCKDB_VER=0.9.0
 ARG DUCK_AZURE_GITHUB_COMMIT=e4fb5a31dc8b014adeac990fb25cf549c7eba962
 ARG BUILD_AZURE=1
 ARG BUILD_HTTPFS=1
+ARG OPENSSL_VERSION=1
 
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
@@ -17,6 +18,7 @@ WORKDIR "/vcpkg"
  #   They can be installed on Ubuntu systems via `apt install linux-libc-dev`.
 ENV VCPKG_INSTALLED_DIR=/vcpkg/installed/
 ENV VCPKG_ROOT=/vcpkg
+RUN apt update && apt upgrade && apt dist-upgrade
 RUN ./vcpkg install openssl azure-storage-blobs-cpp azure-identity-cpp
 
 WORKDIR "/"
