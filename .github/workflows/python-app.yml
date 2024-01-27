@@ -60,7 +60,8 @@ jobs:
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`        
         DUCKDB_VERSION=`cat pyproject.toml |grep 'duckdb ='  |grep -v target | awk '{print $3}' |sed -e "s/\"//g"`        
         export PUSH_REPO=local
-        sh buildDocker.sh $DOCKER_VERSION $DUCKDB_VERSION
+        bash -x buildDocker.sh $DOCKER_VERSION $DUCKDB_VERSION
+        echo "xxxxxxxxxxx"
         
         #why we issue build twice ?-> bug-> https://github.com/docker/buildx/issues/59, one is build and one is to load to local registry
         #export PUSH_REPO=remote
