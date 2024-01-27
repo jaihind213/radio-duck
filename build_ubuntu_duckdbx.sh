@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 #change internal version/duckdbversion
 DUCKDB_VERSION=0.9.0
-INTERNAL_VERSION=0.2
+INTERNAL_VERSION=0.3
 PUSH_REPO=remote
 PLATFORM=linux/x86_64,linux/amd64
 #linux/arm/v8

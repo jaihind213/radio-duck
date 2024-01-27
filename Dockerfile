@@ -2,8 +2,6 @@
 ARG DOCKER_DUCKX_IMAGE_VERSION
 FROM jaihind213/duckdbx:${DOCKER_DUCKX_IMAGE_VERSION}
 
-RUN apt update && apt upgrade && apt dist-upgrade
-
 USER 0
 RUN mkdir -p /radio-duck
 WORKDIR /radio-duck
