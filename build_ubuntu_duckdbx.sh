@@ -13,16 +13,20 @@ export DUCK_IMAGE_NAME=jaihind213/duckdbx
 #######################################
 
 
-if [ "$PUSH_LOCAL_REPO" == "local" ];then
+if [ "$PUSH_REPO" == "local" ];then
   DOCKER_ARGS="--load"
 else
   #push to remote
   DOCKER_ARGS="--output=type=registry"
 fi
 
+echo "building with version: $VERSION"
+echo "Push repo: $PUSH_REPO"
+echo "docker args: $DOCKER_ARGS"
+sleep 5
 
 export DOCKER_BUILDKIT=1
 
-docker buildx build --platform $PLATFORM $DOCKER_ARGS -f DockerFileUbuntuPython3 -t  $IMAGE_NAME:$VERSION -t $IMAGE_NAME:latest .
-
+#docker buildx build --platform $PLATFORM $DOCKER_ARGS -f DockerFileUbuntuPython3 -t  $IMAGE_NAME:$VERSION -t $IMAGE_NAME:latest .
+sleep 10
 docker buildx build --build-arg DUCK_AZURE_GITHUB_COMMIT=${DUCK_AZURE_GITHUB_COMMIT} --build-arg DUCKDB_VERSION=${DUCKDB_VERSION} --platform $PLATFORM $DOCKER_ARGS -f DockerFileDuckDb -t $DUCK_IMAGE_NAME:$VERSION -t $DUCK_IMAGE_NAME:latest .

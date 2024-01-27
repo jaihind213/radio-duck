@@ -1,5 +1,7 @@
 # syntax = docker/dockerfile:1.3
-FROM jaihind213/ubuntu-python3:latest
+ARG UBUNTU_IMAGE_VERSION=0.9.0-0.3
+FROM jaihind213/ubuntu-python3:${UBUNTU_IMAGE_VERSION}
+
 LABEL maintainer="jaihind213@gmail.com"
 
 ARG DUCKDB_VER=0.9.0
