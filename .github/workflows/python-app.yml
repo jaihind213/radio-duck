@@ -55,6 +55,7 @@ jobs:
       uses: docker/setup-buildx-action@v3
     - name: Docker build image
       run: |
+        echo ${{ secrets.DHUB }} | docker login --username  ${{ secrets.DHUB_USER }} --password-stdin
         export PUSH_LATEST_TAG=yes
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`        
         DUCKDB_VERSION=`cat pyproject.toml |grep 'duckdb ='  |grep -v target | awk '{print $3}' |sed -e "s/\"//g"`        
