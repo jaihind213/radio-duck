@@ -85,7 +85,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: cves
-        image: local://jaihind213/radio-duck
+        image: local://jaihind213/radio-duck:${{ env.IMAGE_VERSION }}
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
