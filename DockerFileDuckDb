@@ -18,7 +18,6 @@ WORKDIR "/vcpkg"
  #   They can be installed on Ubuntu systems via `apt install linux-libc-dev`.
 ENV VCPKG_INSTALLED_DIR=/vcpkg/installed/
 ENV VCPKG_ROOT=/vcpkg
-RUN apt update && apt upgrade && apt dist-upgrade
 RUN ./vcpkg install openssl azure-storage-blobs-cpp azure-identity-cpp
 
 WORKDIR "/"
