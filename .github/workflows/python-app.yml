@@ -108,7 +108,7 @@ jobs:
         context: .
         platforms: linux/x86_64,linux/amd64 # todo: linux/arm64 takes a long time
         push: true
-        build-args: DOCKER_DUCKX_IMAGE_VERSION=${{ env.IMAGE_VERSION} }
+        build-args: DOCKER_DUCKX_IMAGE_VERSION=${{ env.IMAGE_VERSION}}
         tags: ${{ env.IMAGE_NAME }}:latest,${{ env.IMAGE_VERSION }}
     - name: Docker Hub Description
       if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
