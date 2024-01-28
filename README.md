@@ -12,7 +12,13 @@ Connect to a Duckdb server over Http.
 
 ## Use cases
 
-- Act as database server for Business intelligence dashboards like (metabase/superset) without embedding duckDb
+- Act as data backend for Business intelligence dashboards like (metabase/superset) without embedding duckDb
+
+![UseCase1 Image](superset_radio_duck.png)
+
+- Highly available Duckdb
+
+![UseCase2 Image](radio_ha.png)
 
 ## Features
 
