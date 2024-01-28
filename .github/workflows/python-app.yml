@@ -67,6 +67,7 @@ jobs:
         #sh buildDocker.sh $DOCKER_VERSION $DUCKDB_VERSION
         
         IMAGE_VERSION=`cat /tmp/version`
+        DOCKER_DUCKX_IMAGE_VERSION=`cat /tmp/duckdbx_version`
         echo "IMAGE_VERSION is $IMAGE_VERSION"
         echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
         echo "DOCKER_DUCKX_IMAGE_VERSION=$DOCKER_DUCKX_IMAGE_VERSION" >> $GITHUB_ENV

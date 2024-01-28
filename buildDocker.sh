@@ -47,3 +47,7 @@ docker buildx build $DOCKER_ARGS --platform $PLATFORM --build-arg DOCKER_DUCKX_I
 touch /tmp/version
 cat /dev/null > /tmp/version
 echo $IMAGE_VERSION > /tmp/version
+
+touch /tmp/duckdbx_version
+cat /dev/null > /tmp/duckdbx_version
+echo $DOCKER_DUCKX_IMAGE_VERSION > /tmp/duckdbx_version
