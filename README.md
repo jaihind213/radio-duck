@@ -126,8 +126,10 @@ sh buildDocker.sh <version> <duckb_version>
 ```
 #run radio-duck
 docker run -p 8000:8000 -t jaihind213/radio-duck:latest
+# for macM1 -> 'add --platform linux/amd64 '
 #run superset
 docker pull jaihind213/superset-radioduck:latest
+# for macM1 -> 'add --platform linux/amd64 '
 docker run -e TALISMAN_ENABLED="False" -e ADMIN_USERNAME=admin -e ADMIN_PASSWORD=admin -e SUPERSET_SECRET_KEY=<some_good_key> -p 8088:8088 jaihind213/superset-radioduck:latest
 ```
 Then access http://localhost:8088/
