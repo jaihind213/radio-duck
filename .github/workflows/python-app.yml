@@ -45,6 +45,7 @@ jobs:
             unknown_command_to_fail_build;
         fi
         echo "if flake8 detects something, please run 'flake8 --format=pylint .' and commit"
+        flake8 --format=pylint .
     - name: Test with pytest
       run: |
         pytest
@@ -54,13 +55,29 @@ jobs:
       uses: docker/setup-buildx-action@v3
     - name: Docker build image
       run: |
+        echo ${{ secrets.DHUB }} | docker login --username  ${{ secrets.DHUB_USER }} --password-stdin
+        export PUSH_LATEST_TAG=yes
         DOCKER_VERSION=`cat pyproject.toml |grep version |grep -v python|grep -v target | awk '{print $3}' |sed -e "s/\"//g"`        
-        IMAGE_TAG=${IMAGE_NAME}:${DOCKER_VERSION}
-        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
-        echo "IMAGE_TAG is $IMAGE_TAG"
+        DUCKDB_VERSION=`cat pyproject.toml |grep 'duckdb ='  |grep -v target | awk '{print $3}' |sed -e "s/\"//g"`        
+        export PUSH_REPO=local
+        bash -x buildDocker.sh $DOCKER_VERSION $DUCKDB_VERSION
         
-        docker buildx build --platform=linux/x86_64,linux/amd64 -t $IMAGE_TAG -t $IMAGE_NAME:latest .
-        docker buildx build --output type=docker -t $IMAGE_TAG -t $IMAGE_NAME:latest .
+        #why we issue build twice ?-> bug-> https://github.com/docker/buildx/issues/59, one is build and one is to load to local registry
+        #export PUSH_REPO=remote
+        #sh buildDocker.sh $DOCKER_VERSION $DUCKDB_VERSION
+        
+        IMAGE_VERSION=`cat /tmp/version`
+        echo "IMAGE_VERSION is $IMAGE_VERSION"
+        echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
+        echo "-------------------------------"
+        docker pull $IMAGE_NAME:$IMAGE_VERSION
+        
+        #IMAGE_TAG=${IMAGE_NAME}:${DOCKER_VERSION}
+        #echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+        #echo "IMAGE_TAG is $IMAGE_TAG"
+        
+        #docker buildx build --platform=linux/x86_64,linux/amd64 -t $IMAGE_TAG -t $IMAGE_NAME:latest .
+        #docker buildx build --output type=docker -t $IMAGE_TAG -t $IMAGE_NAME:latest .
         #why we issue build twice ?-> bug-> https://github.com/docker/buildx/issues/59, one is build and one is to load to local registry
         # todo: linux/arm64 takes a long time
     - name: Docker Scout
@@ -69,7 +86,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: cves
-        image: local://jaihind213/radio-duck
+        image: local://jaihind213/radio-duck:${{ env.IMAGE_VERSION }}
         ignore-unchanged: true
         only-severities: critical,high
         dockerhub-password: ${{ secrets.DHUB }}
@@ -91,7 +108,7 @@ jobs:
         context: .
         platforms: linux/x86_64,linux/amd64 # todo: linux/arm64 takes a long time
         push: true
-        tags: ${{ env.IMAGE_NAME }}:latest,${{ env.IMAGE_TAG }}
+        tags: ${{ env.IMAGE_NAME }}:latest,${{ env.IMAGE_VERSION }}
     - name: Docker Hub Description
       if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
       uses: peter-evans/dockerhub-description@v3

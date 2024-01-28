@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "radio-duck"
-version = "0.1.1"
+version = "0.1.2"
 description = "duckDb server"
 authors = ["vishnu rao"]
 license = "mit license"
@@ -12,6 +12,9 @@ duckdb = "0.9.0"
 fastapi = "0.101.0"
 uvicorn = "0.23.2"
 httpx = "^0.25.0"
+pytz = "^2023.3.post1"
+pyjwt = "2.4.0"
+cryptography = "42.0.1"
 
 [tool.poetry.group.dev.dependencies]
 # poetry add pytest --group dev
