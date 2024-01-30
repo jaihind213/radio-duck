@@ -20,6 +20,18 @@ Connect to a Duckdb server over Http.
 
 ![UseCase2 Image](radio_ha.png)
 
+- Building Block for Data warehouse 
+
+i.e. https://github.com/jaihind213/flyingv/  --> (work in progress) 
+
+Imagine multiple Radio-Ducks in flying-v formation processing data from your cloud storage ⚡🛢🦆
+```
+🦆       🦆
+  🦆   🦆
+    🦆
+```
+
+
 ## Features
 
 ### Run sql on Duckdb over http
