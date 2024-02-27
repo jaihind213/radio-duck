@@ -82,6 +82,10 @@ jobs:
         #docker buildx build --output type=docker -t $IMAGE_TAG -t $IMAGE_NAME:latest .
         #why we issue build twice ?-> bug-> https://github.com/docker/buildx/issues/59, one is build and one is to load to local registry
         # todo: linux/arm64 takes a long time
+        
+        #clean up disk space - we get error
+        #could not get the image local://***/radio-duck:0.1.3-0.9.0-0.3 from cache: failed to copy image: Error response from daemon: write /var/lib/docker/tmp/docker-export-920748090/7864e000623cab3c4f606105cf570d4966620fbaba80bb98d3ecd8a922245bcc/layer.tar: no space left on device
+        rm -rf /opt/hostedtoolcache
     - name: Docker Scout
       id: docker-scout
       if: ${{ github.event_name == 'pull_request' }}
