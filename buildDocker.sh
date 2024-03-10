@@ -51,6 +51,7 @@ echo "PYTHON_VERSION FLAG: $PYTHON_VERSION"
 
 sleep 5
 export DOCKER_BUILDKIT=1
+docker buildx create --use
 docker buildx build $DOCKER_ARGS --build-arg PYTHON_VERSION=${PYTHON_VERSION} --platform $PLATFORM $TAGS .
 
 touch /tmp/version

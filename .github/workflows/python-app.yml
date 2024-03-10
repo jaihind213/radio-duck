@@ -69,7 +69,7 @@ jobs:
         echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
         echo "PYTHON_VERSION=$PYTHON_VERSION" >> $GITHUB_ENV
         echo "DUCKDB_VERSION=$DUCKDB_VERSION" >> $GITHUB_ENV
-        docker pull --platform ${{ env.PLATFORM }} $IMAGE_NAME:$IMAGE_VERSION
+        #docker pull --platform ${{ env.PLATFORM }} $IMAGE_NAME:$IMAGE_VERSION
 
     - name: Docker Scout
       id: docker-scout
