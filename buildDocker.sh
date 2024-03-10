@@ -22,7 +22,7 @@ fi
 #####################
 export IMAGE_NAME=jaihind213/radio-duck
 export IMAGE_VERSION="d${DUCKDB_VERSION}-v${PROJECT_VERSION}-$DOCKERFILE_VERSION"
-PLATFORM=linux/x86_64,linux/amd64
+PLATFORM=linux/amd64
 
 if [ "$PUSH_REPO" == "remote" ];then
   DOCKER_ARGS="--output=type=registry"
