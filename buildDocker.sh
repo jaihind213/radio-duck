@@ -19,10 +19,12 @@ fi
 if [ "$DOCKERFILE_VERSION" == "" ];then
   DOCKERFILE_VERSION=0.1
 fi
+if [ "$PLATFORM" == "" ];then
+  PLATFORM=linux/amd64
+fi
 #####################
 export IMAGE_NAME=jaihind213/radio-duck
 export IMAGE_VERSION="d${DUCKDB_VERSION}-v${PROJECT_VERSION}-$DOCKERFILE_VERSION"
-PLATFORM=linux/amd64
 
 if [ "$PUSH_REPO" == "remote" ];then
   DOCKER_ARGS="--output=type=registry"
