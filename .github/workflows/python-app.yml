@@ -60,7 +60,7 @@ jobs:
         export DOCKERFILE_VERSION=`sha256sum Dockerfile | cut -c 1-8`        
         DUCKDB_VERSION=`cat pyproject.toml |grep 'duckdb ='  |grep -v target | awk '{print $3}' |sed -e "s/\"//g"`        
         PROJECT_VERSION=`cat pyproject.toml |grep 'version ='  |grep -v target | awk '{print $3}' |sed -e "s/\"//g"`                
-        sh buildDocker.sh $PROJECT_VERSION $DUCKDB_VERSION local no
+        bash buildDocker.sh $PROJECT_VERSION $DUCKDB_VERSION local no
         
         IMAGE_VERSION=`cat /tmp/version`
         echo "IMAGE_VERSION is $IMAGE_VERSION"
