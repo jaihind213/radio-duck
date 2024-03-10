@@ -85,49 +85,25 @@ Then access http://localhost:8000/docs and play with the api.
 
 ### Configure RadioDuck with your secret credentials to access Azure blob storage / Aws s3
 
-Create a file with your secrets
-```text
-#for duckdb specific secrets, your key should have duck_ prefix.
-duck_s3_access_key_id=<your_aws_access_key_value>
-duck_s3_secret_access_key=<your_aws_secret_key_value>
-duck_azure_storage_connection_string=DefaultEndpointsProtocol=https;AccountName=<account_name>;AccountKey=<account_key>;EndpointSuffix=core.windows.net
-```
-now provide that secret file as volume
-```
-docker run -p 8000:8000 \
--v <path_to_data_dir>:/radio-duck/pond \
--v <path_to_secrets_file>:/run/secrets/duck_sekrets \
--v <path_to_my_config.ini>:/radio-duck/pond/my_config.ini \
--t jaihind213/radio-duck:latest python3 /radio-duck/server.py /radio-duck/pond/my_config.ini
-#For macM1 --> use --platform linux/amd64 also.
-```
-
-Then access http://localhost:8000/docs
-
-Sample payloads:
-```json
-{
-  "schema": "main",
- "sql": "set session s3_region='ap-southeast-1';SELECT * FROM read_parquet('s3://bucket/sample/*.parquet');"
-}
-```
-
-or
-```json
-{
-  
-  "schema": "main",
-  "sql": "SELECT count(*) FROM 'azure://container/data/part-00000-3213aaeb-1a41-421f-9e1e-a4290dccf509-c000.snappy.parquet';"
-}
-```
+refer to https://duckdb.org/docs/configuration/secrets_manager.html
 
 ### Build Docker image
 ```bash
-echo "Build duckdb Db from source on ubuntu with extensions"
-sh build_ubuntu_duckdbx.sh
-sh buildDocker.sh <version> <duckb_version>
-# sh buildDocker.sh 0.1.1-test 0.9.0
+sh buildDocker.sh <proj_version> <duckb_version>
+#sh buildDocker.sh 0.1.2 0.9.0 local no
 ```
+
+#### Docker Image versioning
+
+The docker image version is in the following format:
+```text
+d<DUCKDB_VERSION>-v<PROJECT_VERSION>-<DOCKERFILE_VERSION>
+ex: d0.10.0-v0.1.2-c1d9c346 
+
+This specifies that radio duck is running with duckdb=0.10.0, the project version being 0.1.2.
+These versions are derived from pyproject.toml
+```
+
 ## Try me with Apache Superset
 ```
 #run radio-duck

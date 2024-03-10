@@ -43,8 +43,6 @@ if __name__ == "__main__":
     # setup db
     duck.setup_duck()
 
-    # configure secrets
-    config.configure_sekrets(duck.connection)
     # start server
     import uvicorn
 
