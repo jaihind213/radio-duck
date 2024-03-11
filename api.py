@@ -115,5 +115,15 @@ def run_sql(
         ) from oom
 
 
+@router.get(
+    "/demo_disclaimer", tags=["_notice"], response_class=PlainTextResponse
+)
+def disclaimer():
+    """
+    This api returns disclaimer for https://www.pythonanywhere.com/ demo website, kindly request to read it by trying out the api.
+    """
+    return "Disclaimer: if you are accessing radio-duck hosted on https://radioduck.pythonanywhere.com/ ,please not it is intended for demonstration purposes only. Do not store any sensitive information, passwords, or secrets on this server. The owner of this server is not liable for any data, including secrets, stored on the server that may be leaked. Use this service responsibly & at your own risk."  # noqa: E501,B950
+
+
 def _deserialize(schema, rows):
     return deser.jsonify_rows(tuple(schema), rows)

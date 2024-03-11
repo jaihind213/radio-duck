@@ -20,8 +20,8 @@ async def shutdown_hook(app: FastAPI):
 
 app = FastAPI(lifespan=shutdown_hook)
 
-if __name__ == "__main__":
-    arguments = sys.argv[0:]
+
+def load_config(arguments: list[str]):
     config_file = "/fubar.ini"
     if len(arguments) > 1:
         config_file = arguments[1]
@@ -34,18 +34,18 @@ if __name__ == "__main__":
         print("loading user provided config from", config_file)
         config.setup_app_config(config_file)
 
-    host = config.get_config()["serve"]["host"]
-    port_str = config.get_config()["serve"]["port"]
+
+def congfigure_logging():
     log_level = config.get_config()["logging"]["level"]
     # set default loglevel
     logging.basicConfig(level=logging._nameToLevel[log_level.upper()])
 
-    # setup db
+
+def setup_duck():
     duck.setup_duck()
 
-    # start server
-    import uvicorn
 
+def configure_router():
     app.include_router(
         api.router,
         prefix="/v1",
@@ -54,4 +54,20 @@ if __name__ == "__main__":
             Depends(duck.get_db_connection),
         ],
     )
+
+
+if __name__ == "__main__":
+    arguments = sys.argv[0:]
+    load_config(arguments)
+    congfigure_logging()
+    configure_router()
+    setup_duck()
+
+    # start server
+    import uvicorn
+
+    host = config.get_config()["serve"]["host"]
+    port_str = config.get_config()["serve"]["port"]
+
+    log_level = config.get_config()["logging"]["level"]
     uvicorn.run(app, host=host, port=int(port_str), log_level=log_level)
