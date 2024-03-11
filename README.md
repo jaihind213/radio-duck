@@ -68,12 +68,11 @@ pytest
 
 - Image available at dockerHub for Platforms: linux/x86_64,linux/amd64.
 - https://hub.docker.com/r/jaihind213/radio-duck
-- For macM1 u can use '--platform linux/amd64'.
 
 ```
 #pull from docker hub
 docker pull jaihind213/radio-duck:latest
-# for macM1 -> 'docker run --platform linux/amd64 -p 8000:8000 -t jaihind213/radio-duck:latest'
+# for arm64 -> 'docker run --platform linux/arm64 -p 8000:8000 -t jaihind213/radio-duck:latest'
 docker run -p 8000:8000 -t jaihind213/radio-duck:latest
 #or
 docker run -p 8000:8000 -v <path_to_data_dir>:/radio-duck/pond -t jaihind213/radio-duck:latest
