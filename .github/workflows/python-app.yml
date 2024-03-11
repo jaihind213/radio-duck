@@ -13,15 +13,19 @@ on:
 env:
   IMAGE_NAME: jaihind213/radio-duck
   PYTHON_VERSION: "3.10"
-  PLATFORM: "linux/amd64"
+  PLATFORM: "linux/amd64,linux/arm64"
 
 permissions:
   contents: read
   pull-requests: write
 
 jobs:
+  qemu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
   build:
-
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
