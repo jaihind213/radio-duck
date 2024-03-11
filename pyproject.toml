@@ -8,13 +8,13 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-duckdb = "0.9.0"
-fastapi = "0.101.0"
+duckdb = "0.10.0"
+fastapi = "0.110.0"
 uvicorn = "0.23.2"
 httpx = "^0.25.0"
 pytz = "^2023.3.post1"
 pyjwt = "2.4.0"
-cryptography = "42.0.1"
+cryptography = "42.0.4"
 
 [tool.poetry.group.dev.dependencies]
 # poetry add pytest --group dev
