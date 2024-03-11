@@ -113,8 +113,11 @@ def _prepare_pond_tables():
 
 def _load_extensions(xtensions_str: str):
     # configure extensions
-    logging.info(f"loading extensions.. {xtensions_str}.")
+    if xtensions_str is None or xtensions_str == "":
+        logging.info(f"no extensions configured to preload.")
+        return
     xtensions = xtensions_str.split(",")
+    logging.info(f"loading extensions.. {xtensions_str}.")
     for x in xtensions:
         connection.execute("install {} ; load {} ;".format(x, x))
         logging.info(f"loaded extension {x}.")
