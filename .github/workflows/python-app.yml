@@ -65,7 +65,7 @@ jobs:
         export DOCKERFILE_VERSION=`sha256sum Dockerfile | cut -c 1-8`        
         DUCKDB_VERSION=`cat pyproject.toml |grep 'duckdb ='  |grep -v target | awk '{print $3}' |sed -e "s/\"//g"`        
         PROJECT_VERSION=`cat pyproject.toml |grep 'version ='  |grep -v target | awk '{print $3}' |sed -e "s/\"//g"` 
-        export PLATFORM="linux/amd64" #for docker scout, use one platform, as multiple platform not allowed with --load
+        export PLATFORM="linux/arm64" #for docker scout, use one platform, as multiple platform not allowed with --load
         bash buildDocker.sh $PROJECT_VERSION $DUCKDB_VERSION local no
         
         IMAGE_VERSION=`cat /tmp/version`
