@@ -68,6 +68,8 @@ pytest
 
 Feel free to run some sql with https://radioduck.pythonanywhere.com/docs
 
+Note: Please try it on firefox/chrome. safari has some issue. 
+
 ## Try me with Docker
 
 - Image available at dockerHub for Platforms: linux/arm64,linux/amd64.
