@@ -41,7 +41,7 @@ curl -X 'POST' \
 ```
 
 ### Load data from cloud blob storage like s3/azure 
-It's the same as you are interacting with duckDb. see the docker section below on how to configure radio-duck.
+It's the same as you are interacting with duckDb using sql.
 
 ### Consume data from streams like kafka 
 [todo]
@@ -64,9 +64,13 @@ poetry install
 pytest
 ```
 
+## Live Demo
+
+Feel free to run some sql with https://radioduck.pythonanywhere.com/docs
+
 ## Try me with Docker
 
-- Image available at dockerHub for Platforms: linux/x86_64,linux/amd64.
+- Image available at dockerHub for Platforms: linux/arm64,linux/amd64.
 - https://hub.docker.com/r/jaihind213/radio-duck
 
 ```
@@ -191,4 +195,3 @@ sh docker_sec_check.sh
 - todo: limit number of conns to duckdb ?
 - todo: return query_id ,useful for debugging.
 - todo: handle transactions over http ? i.e. multiple http requests.
-- todo: build arm64/darwinArm
