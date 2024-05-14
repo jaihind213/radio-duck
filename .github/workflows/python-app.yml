@@ -55,11 +55,11 @@ jobs:
     - name: 💯Test with pytest
       run: |
         pytest
-    - name: Set up QEMU for cross-building
+    - name: 🦤 Set up QEMU for cross-building
       uses: docker/setup-qemu-action@v3
-    - name: Set up Docker Buildx
+    - name: 🚧Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-    - name: Docker build image
+    - name: 🏗️Docker build image
       run: |
         echo ${{ secrets.DHUB }} | docker login --username  ${{ secrets.DHUB_USER }} --password-stdin
         export DOCKERFILE_VERSION=`sha256sum Dockerfile | cut -c 1-8`        
@@ -91,12 +91,12 @@ jobs:
         summary: true
       env:
         GITHUB_TOKEN: ${{ secrets.GTOKEN }}
-    - name: Login to Docker Hub
+    - name: 🔐Login to Docker Hub
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DHUB_USER }}
         password: ${{ secrets.DHUB }}
-    - name: 🌈Build and push Docker image
+    - name: 🚀Build and push Docker image
       if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
       uses: docker/build-push-action@v2
       with:
@@ -106,7 +106,7 @@ jobs:
         build-args: PYTHON_VERSION=${{ env.PYTHON_VERSION}}
         tags: ${{ env.IMAGE_NAME }}:latest,${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
         labels: ${{ steps.meta.outputs.labels }},${{ env.DUCKDB_VERSION }}
-    - name: Docker Hub Description
+    - name: ✏️Docker Hub Description
       if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
       uses: peter-evans/dockerhub-description@v3
       with:
